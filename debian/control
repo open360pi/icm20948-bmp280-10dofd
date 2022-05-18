@@ -1,0 +1,11 @@
+Source: icm20948-bmp280-10dofd
+Section: devel
+Priority: optional
+Maintainer: Monstrofil <shalal545@gmail.com>
+Build-Depends: debhelper (>= 9), gcc, make, wiringpi
+Homepage: https://github.com/Monstrofil/icm20948_bmp280_10dofd
+
+Package: icm20948-bmp280-10dofd
+Architecture: armhf
+Depends: ${misc:Depends}, ${shlibs:Depends}, wiringpi
+Description: icm20948-bmp280-10dofd package files

@@ -1,0 +1,54 @@
+#!/usr/bin/make -f
+#-*- makefile -*-
+
+export DH_VERBOSE=1
+export SHELL	:= /bin/bash
+
+DPKG_VARS				:= $(shell dpkg-architecture)
+DEB_BUILD_MULTIARCH		?= $(call vafilt,$(DPKG_VARS),DEB_BUILD_MULTIARCH)
+DEB_HOST_MULTIARCH		?= $(call vafilt,$(DPKG_VARS),DEB_HOST_MULTIARCH)
+
+srcname			:= icm20948-bmp280-10dofd
+name			:= $(srcname)
+buildroot		:= $(CURDIR)/debian/tmp
+_sourcedir		:= debian/source
+
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+
+override_dh_auto_install:
+	# Install files and directories
+	rm -rf $(buildroot)
+
+	make -j2
+	make install DESTDIR=$(buildroot)
+
+	# ######################################################################
+	# Packaging
+	dh_movefiles -p$(name) \
+		.
+
+override_dh_shlibdeps:
+	echo
+
+override_dh_fixperms:
+	dh_fixperms
+
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf $(buildroot)
+
+override_dh_builddeb:
+	dh_builddeb
+	if [ $(shell find $(buildroot) -type f | wc -l) -gt 0 ]; then \
+		echo "Installed but unpackaged:"; \
+		find $(buildroot) -type f -exec echo "{}" \; | sed -e 's#$(buildroot)##g'; \
+		exit 1; \
+	fi

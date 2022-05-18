@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case "$1" in
+    configure)
+        systemctl enable 10dof.service
+        systemctl start 10dof.service
+      ;;
+
+    *)
+    ;;
+esac
