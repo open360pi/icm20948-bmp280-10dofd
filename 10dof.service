@@ -1,0 +1,8 @@
+[Unit]
+Description=Background daemon reading information from 10dof sensor
+
+[Service]
+ExecStart=/bin/10Dof-D
+
+[Install]
+WantedBy=multi-user.target
